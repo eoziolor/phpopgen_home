@@ -1,0 +1,4 @@
+1-20-2018
+
+Downloaded all sequence data onto cluster with rsync -avL - went into data/raw_fastq
+
