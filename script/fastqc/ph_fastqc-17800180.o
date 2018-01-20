@@ -1,0 +1,58 @@
+==========================================
+SLURM_JOB_ID = 17800180
+SLURM_NODELIST = c8-87
+==========================================
+Module fastqc/0.11.5 loaded 
+Started analysis of AWPH001_001_S77_L007_R1_001.fastq.gz
+Approx 5% complete for AWPH001_001_S77_L007_R1_001.fastq.gz
+Approx 10% complete for AWPH001_001_S77_L007_R1_001.fastq.gz
+Approx 15% complete for AWPH001_001_S77_L007_R1_001.fastq.gz
+Approx 20% complete for AWPH001_001_S77_L007_R1_001.fastq.gz
+Approx 25% complete for AWPH001_001_S77_L007_R1_001.fastq.gz
+Approx 30% complete for AWPH001_001_S77_L007_R1_001.fastq.gz
+Approx 35% complete for AWPH001_001_S77_L007_R1_001.fastq.gz
+Approx 40% complete for AWPH001_001_S77_L007_R1_001.fastq.gz
+Approx 45% complete for AWPH001_001_S77_L007_R1_001.fastq.gz
+Approx 50% complete for AWPH001_001_S77_L007_R1_001.fastq.gz
+Approx 55% complete for AWPH001_001_S77_L007_R1_001.fastq.gz
+Approx 60% complete for AWPH001_001_S77_L007_R1_001.fastq.gz
+Approx 65% complete for AWPH001_001_S77_L007_R1_001.fastq.gz
+Approx 70% complete for AWPH001_001_S77_L007_R1_001.fastq.gz
+Approx 75% complete for AWPH001_001_S77_L007_R1_001.fastq.gz
+Approx 80% complete for AWPH001_001_S77_L007_R1_001.fastq.gz
+Approx 85% complete for AWPH001_001_S77_L007_R1_001.fastq.gz
+Approx 90% complete for AWPH001_001_S77_L007_R1_001.fastq.gz
+Approx 95% complete for AWPH001_001_S77_L007_R1_001.fastq.gz
+Analysis complete for AWPH001_001_S77_L007_R1_001.fastq.gz
+Started analysis of AWPH001_001_S77_L007_R2_001.fastq.gz
+Approx 5% complete for AWPH001_001_S77_L007_R2_001.fastq.gz
+Approx 10% complete for AWPH001_001_S77_L007_R2_001.fastq.gz
+Approx 15% complete for AWPH001_001_S77_L007_R2_001.fastq.gz
+Approx 20% complete for AWPH001_001_S77_L007_R2_001.fastq.gz
+Approx 25% complete for AWPH001_001_S77_L007_R2_001.fastq.gz
+Approx 30% complete for AWPH001_001_S77_L007_R2_001.fastq.gz
+Approx 35% complete for AWPH001_001_S77_L007_R2_001.fastq.gz
+Approx 40% complete for AWPH001_001_S77_L007_R2_001.fastq.gz
+Approx 45% complete for AWPH001_001_S77_L007_R2_001.fastq.gz
+Approx 50% complete for AWPH001_001_S77_L007_R2_001.fastq.gz
+Approx 55% complete for AWPH001_001_S77_L007_R2_001.fastq.gz
+Approx 60% complete for AWPH001_001_S77_L007_R2_001.fastq.gz
+Approx 65% complete for AWPH001_001_S77_L007_R2_001.fastq.gz
+Approx 70% complete for AWPH001_001_S77_L007_R2_001.fastq.gz
+Approx 75% complete for AWPH001_001_S77_L007_R2_001.fastq.gz
+Approx 80% complete for AWPH001_001_S77_L007_R2_001.fastq.gz
+Approx 85% complete for AWPH001_001_S77_L007_R2_001.fastq.gz
+Approx 90% complete for AWPH001_001_S77_L007_R2_001.fastq.gz
+Approx 95% complete for AWPH001_001_S77_L007_R2_001.fastq.gz
+Analysis complete for AWPH001_001_S77_L007_R2_001.fastq.gz
+Started analysis of AWPH001_002_S78_L007_R1_001.fastq.gz
+Approx 5% complete for AWPH001_002_S78_L007_R1_001.fastq.gz
+Approx 10% complete for AWPH001_002_S78_L007_R1_001.fastq.gz
+Approx 15% complete for AWPH001_002_S78_L007_R1_001.fastq.gz
+Approx 20% complete for AWPH001_002_S78_L007_R1_001.fastq.gz
+Approx 25% complete for AWPH001_002_S78_L007_R1_001.fastq.gz
+Approx 30% complete for AWPH001_002_S78_L007_R1_001.fastq.gz
+Approx 35% complete for AWPH001_002_S78_L007_R1_001.fastq.gz
+Approx 40% complete for AWPH001_002_S78_L007_R1_001.fastq.gz
+Approx 45% complete for AWPH001_002_S78_L007_R1_001.fastq.gz
+Approx 50% complete for AWPH001_002_S78_L007_R1_001.fastq.gz

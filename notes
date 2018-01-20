@@ -2,3 +2,5 @@
 
 Downloaded all sequence data onto cluster with rsync -avL - went into data/raw_fastq
 
+Using fastqc version 0.11.5 (loaded from module) to run fastqc on files
+
