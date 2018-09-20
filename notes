@@ -1,6 +1,21 @@
 1-20-2018
+===
 
 Downloaded all sequence data onto cluster with rsync -avL - went into data/raw_fastq
 
 Using fastqc version 0.11.5 (loaded from module) to run fastqc on files
 
+9-18-2018
+===
+
+Downloading the huge mass of pop gen data:
+
+srun -t 24:00:00 -n 8 --mem 60000 --pty /bin/bash
+wget -r --user="P202SC18070493-01_20180918_KsobGd" --password="z9riCH" ftp://128.120.88.242/
+
+9-20-2018
+===
+
+* Backing all of the data up on external hard drive
+
+scp -P 2022 -r farm:/home/eoziolor/phpopg/data/128.120.88.242/* /Volumes/seagate_backup/herring_raw/

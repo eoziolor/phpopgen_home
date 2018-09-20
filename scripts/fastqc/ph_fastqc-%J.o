@@ -1,0 +1,22 @@
+
+===========================================================================
+Job Finished
+
+Name                : ph_fastqc
+User                : eoziolor
+Partition           : med
+Nodes               : c8-87
+Cores               : 23
+State               : CANCELLED,TIMEOUT
+Submit              : 2018-01-20T04:59:35
+Start               : 2018-01-20T04:59:35
+End                 : 2018-01-20T07:59:58
+Reserved walltime   : 03:00:00
+Used walltime       : 03:00:23
+Used CPU time       : 01:33:17
+% User (Computation): 97.07%
+% System (I/O)      :  2.93%
+Mem reserved        : 60000M/node
+Max Mem used        : 330.39M (c8-87)
+Max Disk Write      : 109.00M (c8-87)
+Max Disk Read       : 36.84G (c8-87)
