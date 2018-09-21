@@ -1,0 +1,67 @@
+Module bio3/1.0 loaded 
+FastQC v0.11.4
+507
+Started analysis of AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_1.fq.gz
+Approx 5% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_1.fq.gz
+Approx 10% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_1.fq.gz
+Approx 15% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_1.fq.gz
+Approx 20% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_1.fq.gz
+Approx 25% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_1.fq.gz
+Approx 30% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_1.fq.gz
+Approx 35% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_1.fq.gz
+Approx 40% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_1.fq.gz
+Approx 45% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_1.fq.gz
+Approx 50% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_1.fq.gz
+Approx 55% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_1.fq.gz
+Approx 60% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_1.fq.gz
+Approx 65% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_1.fq.gz
+Approx 70% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_1.fq.gz
+Approx 75% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_1.fq.gz
+Approx 80% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_1.fq.gz
+Approx 85% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_1.fq.gz
+Approx 90% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_1.fq.gz
+Approx 95% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_1.fq.gz
+Analysis complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_1.fq.gz
+Started analysis of AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_2.fq.gz
+Approx 5% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_2.fq.gz
+Approx 10% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_2.fq.gz
+Approx 15% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_2.fq.gz
+Approx 20% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_2.fq.gz
+Approx 25% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_2.fq.gz
+Approx 30% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_2.fq.gz
+Approx 35% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_2.fq.gz
+Approx 40% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_2.fq.gz
+Approx 45% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_2.fq.gz
+Approx 50% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_2.fq.gz
+Approx 55% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_2.fq.gz
+Approx 60% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_2.fq.gz
+Approx 65% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_2.fq.gz
+Approx 70% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_2.fq.gz
+Approx 75% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_2.fq.gz
+Approx 80% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_2.fq.gz
+Approx 85% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_2.fq.gz
+Approx 90% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_2.fq.gz
+Approx 95% complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_2.fq.gz
+Analysis complete for AWPH08_507_USPD16088118-N708-K2663_HMNYJCCXY_L5_2.fq.gz
+
+===========================================================================
+Job Finished
+
+Name                : ph_fastqc
+User                : eoziolor
+Partition           : med
+Nodes               : c8-76
+Cores               : 3
+State               : COMPLETED
+Submit              : 2018-09-20T15:30:26
+Start               : 2018-09-20T15:56:51
+End                 : 2018-09-20T16:09:24
+Reserved walltime   : 01:30:00
+Used walltime       : 00:12:33
+Used CPU time       : 00:03:27
+% User (Computation): 96.53%
+% System (I/O)      :  3.47%
+Mem reserved        : 8000M/node
+Max Mem used        : 330.59M (c8-76)
+Max Disk Write      : 2.58M (c8-76)
+Max Disk Read       : 1.05G (c8-76)
