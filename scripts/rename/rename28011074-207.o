@@ -1,0 +1,154 @@
+==========================================
+SLURM_JOB_ID = 28011089
+SLURM_NODELIST = c11-95
+==========================================
+AWPH04207
+AWPH04_207
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_1.fq.gz': File exists
+ln: failed to create symbolic link '/home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH04_207/AWPH04_207_2.fq.gz': File exists
+
+===========================================================================
+Job Finished
+
+Name                : rename
+User                : eoziolor
+Partition           : med
+Nodes               : c11-95
+Cores               : 3
+State               : FAILED
+Submit              : 2018-09-21T14:09:14
+Start               : 2018-09-21T14:09:15
+End                 : 2018-09-21T14:09:15
+Reserved walltime   : 01:30:00
+Used walltime       : --
+Used CPU time       : --
+% User (Computation): 36.36%
+% System (I/O)      : 63.64%
+Mem reserved        : 8000M/node
+Max Mem used        : 0.00  (c11-95)
+Max Disk Write      : 0.00  (c11-95)
+Max Disk Read       : 0.00  (c11-95)
