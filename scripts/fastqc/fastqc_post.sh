@@ -30,6 +30,6 @@ fi
 echo $num
 
 #code
-fastqc AWPH.$num.fastq \
+fastqc AWPH.$num.fq.gz \
 -o $my_dir
 

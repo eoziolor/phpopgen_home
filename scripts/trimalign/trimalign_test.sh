@@ -5,8 +5,8 @@
 #SBATCH -e combo_trimalign%A-%a.o
 #SBATCH -o combo_trimalign%A-%a.o
 #SBATCH -N 1
-#SBATCH -n 1
-#SBATCH -t 02-00:00
+#SBATCH -n 8
+#SBATCH -t 01-00:00
 #SBATCH --mem=8000
 
 module load bio3
@@ -58,4 +58,4 @@ pop=$(cat $my_list | grep $sample | cut -f 2)
 paste <(zcat $fq1 | paste - - - -) \
       <(zcat $fq2 | paste - - - -) |\
 tr '\t' '\n' |\
-cutadapt --interleaved -a CTGTCTCTTATA -A CTGTCTCTTATA -u 10 -q 30 --trim-n --minimum-length 36 - > $my_out/AWPH.$sample.fastq
+cutadapt -j 8 --interleaved -a CTGTCTCTTATA -A CTGTCTCTTATA -u 10 -U 10 -q 30 --trim-n --minimum-length 36 - | gzip > $my_out/AWPH.$sample.fq.gz
