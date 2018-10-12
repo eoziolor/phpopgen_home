@@ -127,7 +127,12 @@ printf "%04d\n" $(cat $my_list | awk '{print $1}') | sed 's/0000/0001/' > zeros_
 ```
 cat pop_samples.tsv | awk '{print $2}' | paste zeros_samples_list.txt - > zeros_samples.tsv
 ```
+* indexing genome
 
+```
+/home/eoziolor/program/bwa-0.7.17/bwa index phgenome_masked.fasta
+/home/eoziolor/program/samtools-1.9/bin/samtools faidx phgenome_masked.fasta
+```
 * Let's give alignment a shot
 
 ```

@@ -1,13 +1,12 @@
-==========================================
-SLURM_JOB_ID = 5434910
-SLURM_NODELIST = c8-63
-==========================================
 Module slurm/18.08.1 loaded 
 Module openmpi/3.1.2 loaded 
 Module bio3/1.0 loaded 
-004
-[E::bwa_idx_load_from_disk] fail to locate the index files
+009
 This is cutadapt 1.15 with Python 3.6.5
 Command line parameters: -j 8 --interleaved -a CTGTCTCTTATA -A CTGTCTCTTATA -u 10 -U 10 -q 30 --trim-n --minimum-length 36 -
 Running on 8 cores
 Trimming 2 adapters with at most 10.0% errors in paired-end mode ...
+[M::bwa_idx_load_from_disk] read 0 ALT contigs
+[M::process] read 155284 sequences (20000001 bp)...
+[M::process] 0 single-end sequences; 155284 paired-end sequences
+[M::process] read 154346 sequences (20000230 bp)...
