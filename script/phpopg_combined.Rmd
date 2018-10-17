@@ -1,0 +1,514 @@
+---
+title: "Pacific herring population genomics"
+author: "Oziolor"
+date: "10/12/2018"
+output: html_document
+---
+
+# Downloading the data
+
+```{bash}
+srun -t 24:00:00 -n 8 --mem 60000 --pty /bin/bash
+wget -r --user="P202SC18070493-01_20180918_KsobGd" --password="z9riCH" ftp://128.120.88.242/
+```
+
+# Backing up on external hard drive
+
+```{bash}
+scp -P 2022 -r farm:/home/eoziolor/phpopg/data/128.120.88.242/* /Volumes/seagate_backup/herring_raw/
+```
+
+#FastQC on all samples
+
+```{bash}
+#!/bin/bash
+
+#SBATCH -J ph_fastqc
+#SBATCH --array=1-1275
+#SBATCH -e ph_fastqc%A-%a.o
+#SBATCH -o ph_fastqc%A-%a.o
+#SBATCH -N 1
+#SBATCH -n 1
+#SBATCH -t 01:30:00
+#SBATCH --mem=8000
+
+module load bio3
+fastqc --version
+
+#folder
+my_dir=/home/eoziolor/phpopg/data/128.120.88.242/raw_data
+my_out=/home/eoziolor/phpopg/data/fastqc/
+cd $my_dir
+
+if (($SLURM_ARRAY_TASK_ID < 10))
+then
+	num=00$(echo $SLURM_ARRAY_TASK_ID)
+elif (($SLURM_ARRAY_TASK_ID < 100))
+then
+	num=0$(echo $SLURM_ARRAY_TASK_ID)
+else
+	num=$(echo $SLURM_ARRAY_TASK_ID)
+fi
+
+echo $num
+
+#code
+cd $my_dir/AWPH*$num
+fastqc *.fq.gz \
+-o $my_out
+```
+
+# MultiQC
+
+```{bash}
+conda create --name phpopg python=2.7
+source activate phpopg
+conda install -c bioconda multiqc
+
+# run in folder with fastqc files
+
+multiqc .
+```
+
+# Renaming Lane 4
+
+```{bash}
+#!/bin/bash
+
+#SBATCH -J rename
+#SBATCH --array=193-256
+#SBATCH -e rename%A-%a.o
+#SBATCH -o rename%A-%a.o
+#SBATCH -N 1
+#SBATCH -n 1
+#SBATCH -t 01:30:00
+#SBATCH --mem=8000
+
+my_dir=/group/awhitehegrp/herring_pop/hwftp.novogene.com/C202SC18041736/raw_data
+new_dir=/home/eoziolor/phpopg/data/128.120.88.242/raw_data
+
+orig_nam=AWPH04$(echo $SLURM_ARRAY_TASK_ID)
+new_nam=AWPH04\_$(echo $SLURM_ARRAY_TASK_ID)
+
+echo $orig_nam
+echo $new_nam
+
+mkdir $new_dir/$new_nam
+
+cd $my_dir
+
+for i in $(ls)
+	do cd $my_dir/$orig_nam
+	ln -s $orig_nam*1.fq.gz $new_dir/$new_nam/$new_nam\_1.fq.gz
+	ln -s $orig_nam*2.fq.gz $new_dir/$new_nam/$new_nam\_2.fq.gz
+done
+```
+
+# Extra downloads
+
+## renaming mislabeled sample (by the seq facility)
+```{bash}
+mv AWPH02_121 AWPH02_113
+cd AWPH02_113
+
+mv AWPH02_121_USPD16088113-N711-K2655_HMT2KCCXY_L4_1.fq.gz AWPH02_113_L4_1.fq.gz
+mv AWPH02_121_USPD16088113-N711-K2655_HMT2KCCXY_L4_2.fq.gz AWPH02_113_L4_2.fq.gz
+```
+
+## downloading correct sample for that name
+```{bash}
+wget -r -v --user="P202SC18070493-01_20180921_FNUwJ7" --password="rNjaQm" ftp://128.120.88.242
+```
+
+## correcting names on backup
+
+```{bash}
+mv AWPH02_121 AWPH02_113
+cd AWPH02_113
+
+mv AWPH02_121_USPD16088113-N711-K2655_HMT2KCCXY_L4_1.fq.gz AWPH02_113_L4_1.fq.gz
+mv AWPH02_121_USPD16088113-N711-K2655_HMT2KCCXY_L4_2.fq.gz AWPH02_113_L4_2.fq.gz
+```
+
+# Installation bwa and samtools
+
+```{bash}
+wget https://sourceforge.net/projects/bio-bwa/files/bwa-0.7.17.tar.bz2/download
+
+mv download bwa-0.7.17.tar.bz2
+bunzip2 bwa-0.7.17.tar.bz2
+tar xvf bwa-0.7.17.tar
+cd bwa-0.7.17
+make
+```
+
+```{bash}
+wget https://github.com/samtools/samtools/releases/download/1.9/samtools-1.9.tar.bz2
+bunzip2 samtools-1.9.tar.bz2
+tar xvf samtools-1.9.tar
+cd samtools-1.9
+./configure --prefix=/home/eoziolor/program/samtools-1.9/
+make
+make install
+```
+
+# Trimming and aligning
+
+## Troubleshooting trimming
+
+```{bash}
+#!/bin/bash -l
+
+#SBATCH -J combo_trimalign
+#SBATCH --array=1-10
+#SBATCH -e combo_trimalign%A-%a.o
+#SBATCH -o combo_trimalign%A-%a.o
+#SBATCH -N 1
+#SBATCH -n 8
+#SBATCH -t 01-00:00
+#SBATCH --mem=8000
+
+module load bio3
+
+#Assigning number to be able to get into each folder separately
+
+if (($SLURM_ARRAY_TASK_ID < 10))
+then
+	num=00$(echo $SLURM_ARRAY_TASK_ID)
+elif (($SLURM_ARRAY_TASK_ID < 100))
+then
+	num=0$(echo $SLURM_ARRAY_TASK_ID)
+else
+	num=$(echo $SLURM_ARRAY_TASK_ID)
+fi
+
+echo $num
+
+#Assigning new sample numbers with same amount of digits
+if (($SLURM_ARRAY_TASK_ID < 10))
+then
+        sample=000$(echo $SLURM_ARRAY_TASK_ID)
+elif (($SLURM_ARRAY_TASK_ID < 100))
+then
+        sample=00$(echo $SLURM_ARRAY_TASK_ID)
+elif (($SLURM_ARRAY_TASK_ID <1000))
+then
+	sample=0$(echo $SLURM_ARRAY_TASK_ID)
+else
+        sample=$(echo $SLURM_ARRAY_TASK_ID)
+fi
+
+
+#Directory and file assignment for each file and program
+my_dir=/home/eoziolor/phpopg/data/128.120.88.242/raw_data
+fq1=$my_dir/AWPH*$num/*1.fq.gz
+fq2=$my_dir/AWPH*$num/*2.fq.gz
+my_bwa=/home/eoziolor/program/bwa-0.7.17/bwa
+my_sbl=/home/eoziolor/program/samblaster/samblaster
+my_sam=/home/eoziolor/program/samtools-1.9/samtools
+my_out=/home/eoziolor/phpopg/data/align/
+my_gen=/home/eoziolor/phgenome/data/genome/phgenome_masked.fasta
+my_list=/home/eoziolor/phpopg/data/list/pop_samples.tsv
+
+#others
+pop=$(cat $my_list | grep $sample | cut -f 2)
+
+#Code
+paste <(zcat $fq1 | paste - - - -) \
+      <(zcat $fq2 | paste - - - -) |\
+tr '\t' '\n' |\
+cutadapt -j 8 --interleaved -a CTGTCTCTTATA -A CTGTCTCTTATA -u 10 -U 10 -q 30 --trim-n --minimum-length 36 - | gzip > $my_out/AWPH.$sample.fq.gz
+```
+
+## Assessing quality with fastqc on a subsample
+
+```{bash}
+#!/bin/bash
+
+#SBATCH -J ph_fastqc
+#SBATCH --array=1-10
+#SBATCH -e ph_fastqc%A-%a.o
+#SBATCH -o ph_fastqc%A-%a.o
+#SBATCH -N 1
+#SBATCH -n 1
+#SBATCH -t 01:30:00
+#SBATCH --mem=8000
+
+module load bio3
+fastqc --version
+
+#folder
+my_dir=/home/eoziolor/phpopg/data/align/
+#my_out=/home/eoziolor/phpopg/data/align/
+cd $my_dir
+
+if (($SLURM_ARRAY_TASK_ID < 10))
+then
+	num=000$(echo $SLURM_ARRAY_TASK_ID)
+elif (($SLURM_ARRAY_TASK_ID < 100))
+then
+	num=00$(echo $SLURM_ARRAY_TASK_ID)
+else
+	num=$(echo $SLURM_ARRAY_TASK_ID)
+fi
+
+echo $num
+
+#code
+fastqc AWPH.$num.fq.gz \
+-o $my_dir
+```
+
+## Preparing sample lists and population belonging
+* used this to pad the list with zeros
+
+```{bash}
+my_list=/home/eoziolor/phpopg/data/list/pop_samples.tsv 
+
+printf "%04d\n" $(cat $my_list | awk '{print $1}') | sed 's/0000/0001/' > zeros_samples_list.txt
+```
+
+* merged with list of sample pops as
+
+```{bash}
+cat pop_samples.tsv | awk '{print $2}' | paste zeros_samples_list.txt - > zeros_samples.tsv
+```
+
+## Indexing genome
+
+```{bash}
+/home/eoziolor/program/bwa-0.7.17/bwa index phgenome_masked.fasta
+/home/eoziolor/program/samtools-1.9/bin/samtools faidx phgenome_masked.fasta
+```
+
+* converting list to unix
+
+```{bash}
+dos2unix zeros_samples.tsv 
+```
+
+## Trim + align script
+
+```{bash}
+#!/bin/bash -l
+
+#SBATCH -J combo_trimalign
+#SBATCH --array=1-10
+#SBATCH -e combo_trimalign%A-%a.o
+#SBATCH -o combo_trimalign%A-%a.o
+#SBATCH -N 1
+#SBATCH -n 8
+#SBATCH -t 01-00:00
+#SBATCH --mem=8000
+
+module load bio3
+
+#Assigning number to be able to get into each folder separately
+
+if (($SLURM_ARRAY_TASK_ID < 10))
+then
+	num=00$(echo $SLURM_ARRAY_TASK_ID)
+elif (($SLURM_ARRAY_TASK_ID < 100))
+then
+	num=0$(echo $SLURM_ARRAY_TASK_ID)
+else
+	num=$(echo $SLURM_ARRAY_TASK_ID)
+fi
+
+echo $num
+
+#Assigning new sample numbers with same amount of digits
+if (($SLURM_ARRAY_TASK_ID < 10))
+then
+        sample=000$(echo $SLURM_ARRAY_TASK_ID)
+elif (($SLURM_ARRAY_TASK_ID < 100))
+then
+        sample=00$(echo $SLURM_ARRAY_TASK_ID)
+elif (($SLURM_ARRAY_TASK_ID <1000))
+then
+	sample=0$(echo $SLURM_ARRAY_TASK_ID)
+else
+        sample=$(echo $SLURM_ARRAY_TASK_ID)
+fi
+
+
+#Directory and file assignment for each file and program
+my_dir=/home/eoziolor/phpopg/data/128.120.88.242/raw_data
+fq1=$my_dir/AWPH*$num/*1.fq.gz
+fq2=$my_dir/AWPH*$num/*2.fq.gz
+my_bwa=/home/eoziolor/program/bwa-0.7.17/bwa
+my_sbl=/home/eoziolor/program/samblaster/samblaster
+my_sam=/home/eoziolor/program/samtools-1.9/samtools
+my_out=/home/eoziolor/phpopg/data/align/
+my_gen=/home/eoziolor/phgenome/data/genome/phgenome_masked.fasta
+my_list=/home/eoziolor/phpopg/data/list/zeros_samples.tsv
+
+#others
+pop=$(cat $my_list | grep $sample | cut -f 2)
+rg=$(echo \@RG\\tID:$sample\\tPL:Illumina\\tPU:x\\tLB:combined\\tSM:$sample.$pop)
+outroot=$sample\_$pop
+
+#Code
+paste <(zcat $fq1 | paste - - - -) \
+      <(zcat $fq2 | paste - - - -) |\
+tr '\t' '\n' |\
+cutadapt -j 8 --interleaved -a CTGTCTCTTATA -A CTGTCTCTTATA -u 10 -U 10 -q 30 --trim-n --minimum-length 36 - |\
+$my_bwa mem $my_gen -p -R $rg -t 2 - |\
+$my_sam view -S -h -u - | \
+$my_sam sort -T $my_out/$outroot > $my_out/$outroot
+```
+
+## VERY IMPORTANT about trimming and alignment script
+
+* this script produces two false positive files because of the crappy way that the folder names are named
+    * I am missing folders 097 and 199, but the script still produces files with alignments in them because it draws from folders 1097 and 1199. I will delete these alignments.
+    * For the future I have made sure that this does not happen by padding down the names of the alignment files with the correct amount of 0s (ex. 0097, 0199)
+
+## Alignment statistics
+
+```{bash}
+#!/bin/bash -l
+
+#SBATCH -J flagstat
+#SBATCH -e flagstat-%j.o
+#SBATCH -o flagstat-%j.o
+#SBATCH -N 1
+#SBATCH -n 16
+#SBATCH -t 01-00:00
+#SBATCH --mem=60000
+#SBATCH -p high
+
+#files
+my_dir=/home/eoziolor/phpopg/data/align
+my_sam=/home/eoziolor/program/samtools-1.9/bin/samtools
+my_out=/home/eoziolor/phpopg/data/align/stats.txt
+
+#code
+for file in $my_dir/*.bam; do
+	$my_sam flagstat $file >> $my_out
+done
+```
+
+## File names and locations of all bams
+
+```{bash}
+cat zeros_samples.tsv | tr '\t' '_' | sed 's/^/\/home\/eoziolor\/phpopg\/data\/align\//' | sed 's/$/.bam/' > bam_list.txt
+```
+
+## Looking at mapping success rate and coverage
+
+* Using samtools flagstat then grabbing mapped reads line
+
+```{bash}
+cat stats.txt | grep "mapped (" | awk '{OFS=" "}{print $1}' > mapped_reads.txt
+#in folder with bam files
+ls -1 | head -n -4 | tr '_' '\t' | sed 's/.bam//g' | paste - mapped_reads.txt > mapped_reads_ind.txt
+```
+
+## Loading in read coverage
+```{r}
+library(magrittr)
+library(tidyr)
+library(ggplot2)
+library(dplyr)
+mapped<-read.csv("~/phpopg/data/mapped_reads_ind.txt",header=F,sep='\t')
+mapped<-na.omit(mapped)
+
+#calculating coverage
+mapped[,4]<-mapped[,3]*140/900000000
+
+#histogram for overall coverage
+hist(mapped[,4],breaks=100)
+
+#converting ind to numeric
+mapped[,1]<-as.numeric(mapped[,1])
+
+#creating a vector of plate #
+for(i in 1:20){
+  for(j in 1:(dim(mapped)[1])){
+    if(mapped[j,1]<=i*64&&mapped[j,1]>(i-1)*64){
+    mapped[j,5]<-i
+  }
+  }
+}
+
+#naming columns
+colnames(mapped)<-c("ind","pop","reads","cov","plate")
+
+ggplot(mapped,
+       aes(x=pop,y=cov,color=pop))+
+  geom_violin(color="black")+
+  geom_jitter()+
+  theme_classic()
+
+ggplot(mapped,
+       aes(x=as.factor(plate),y=cov,color=plate))+
+  geom_violin(color="black")+
+  geom_jitter()+
+  theme_classic()
+
+```
+
+# Merging
+## Installing bamtools
+
+```{bash}
+git clone git://github.com/pezmaster31/bamtools.git
+module load cmake
+cd bamtools
+mkdir build
+cd build
+cmake -DCMAKE_INSTALL_PREFIX=/home/eoziolor/program/bamtools ..
+make
+make DESTDIR=/home/eoziolor/program/bamtools install
+```
+
+## Merging with bamtools
+
+```{bash}
+#!/bin/bash -l
+
+#SBATCH -J mergebam
+#SBATCH -e mergebam-%j.o
+#SBATCH -o mergebam-%j.o
+#SBATCH -N 1
+#SBATCH -n 16
+#SBATCH -t 02-00:00
+#SBATCH --mem=60000
+#SBATCH -p high
+
+#files
+my_bam=/home/eoziolor/program/bamtools/build/src/toolkit/bamtools
+my_merge=/home/eoziolor/phpopg/data/align/allmerge.bam
+my_list=/home/eoziolor/phpopg/data/list/bam_list.txt
+
+#code
+$my_bam merge -list $my_list -out $my_merge
+```
+
+# Depth of coverage per base
+
+```{bash}
+#!/bin/bash -l
+
+#SBATCH -J bamdepth
+#SBATCH -e bamdepth-%j.o
+#SBATCH -o bamdepth-%j.o
+#SBATCH -N 1
+#SBATCH -n 16
+#SBATCH -t 06-00:00
+#SBATCH --mem=60000
+#SBATCH -p high
+
+module load bio3
+
+#files
+my_list=/home/eoziolor/phpopg/data/list/bam_list.txt
+#my_stools=/home/eoziolor/program/samtools-1.9/bin/samtools
+my_out=/home/eoziolor/phpopg/data/depth/coverage_allbases.txt.gz
+
+#code
+samtools depth \
+-d 10000 \
+-f $my_list | gzip > $my_out
+```
