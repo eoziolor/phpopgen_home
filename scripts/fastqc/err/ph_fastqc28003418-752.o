@@ -1,0 +1,27 @@
+Module bio3/1.0 loaded 
+FastQC v0.11.4
+752
+/var/spool/slurmd/job28004442/slurm_script: line 33: cd: /home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH*752: No such file or directory
+Skipping '*.fq.gz' which didn't exist, or couldn't be read
+
+===========================================================================
+Job Finished
+
+Name                : ph_fastqc
+User                : eoziolor
+Partition           : med
+Nodes               : c10-76
+Cores               : 3
+State               : RUNNING
+Submit              : 2018-09-20T15:30:26
+Start               : 2018-09-20T16:11:46
+End                 : --
+Reserved walltime   : 01:30:00
+Used walltime       : 00:00:04
+Used CPU time       : --
+% User (Computation): --
+% System (I/O)      : --
+Mem reserved        : 8000M/node
+Max Mem used        : 0.00  ()
+Max Disk Write      : 0.00  ()
+Max Disk Read       : 0.00  ()

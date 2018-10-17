@@ -1,0 +1,31 @@
+==========================================
+SLURM_JOB_ID = 28108712
+SLURM_NODELIST = c11-89
+==========================================
+Module bio3/1.0 loaded 
+FastQC v0.11.4
+120
+/var/spool/slurmd/job28108712/slurm_script: line 25: cd: /group/awhitehegrp/herring_pop/hwftp.novogene.com/C202SC18041736/raw_data/AWPH02120: No such file or directory
+Skipping '*.fq.gz' which didn't exist, or couldn't be read
+
+===========================================================================
+Job Finished
+
+Name                : allocation
+User                : eoziolor
+Partition           : 
+Nodes               : c11-89
+Cores               : 3
+State               : COMPLETED
+Submit              : 2018-09-24T12:26:45
+Start               : 2018-09-24T12:26:46
+End                 : 2018-09-24T12:26:47
+Reserved walltime   : --
+Used walltime       : 00:00:01
+Used CPU time       : --
+% User (Computation): 90.86%
+% System (I/O)      :  9.14%
+Mem reserved        : 0/node
+Max Mem used        : 0.00  (c11-89)
+Max Disk Write      : 0.00  (c11-89)
+Max Disk Read       : 0.00  (c11-89)

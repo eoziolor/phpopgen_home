@@ -1,0 +1,67 @@
+Module bio3/1.0 loaded 
+FastQC v0.11.4
+827
+Started analysis of AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_1.fq.gz
+Approx 5% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_1.fq.gz
+Approx 10% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_1.fq.gz
+Approx 15% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_1.fq.gz
+Approx 20% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_1.fq.gz
+Approx 25% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_1.fq.gz
+Approx 30% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_1.fq.gz
+Approx 35% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_1.fq.gz
+Approx 40% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_1.fq.gz
+Approx 45% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_1.fq.gz
+Approx 50% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_1.fq.gz
+Approx 55% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_1.fq.gz
+Approx 60% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_1.fq.gz
+Approx 65% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_1.fq.gz
+Approx 70% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_1.fq.gz
+Approx 75% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_1.fq.gz
+Approx 80% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_1.fq.gz
+Approx 85% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_1.fq.gz
+Approx 90% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_1.fq.gz
+Approx 95% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_1.fq.gz
+Analysis complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_1.fq.gz
+Started analysis of AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_2.fq.gz
+Approx 5% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_2.fq.gz
+Approx 10% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_2.fq.gz
+Approx 15% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_2.fq.gz
+Approx 20% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_2.fq.gz
+Approx 25% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_2.fq.gz
+Approx 30% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_2.fq.gz
+Approx 35% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_2.fq.gz
+Approx 40% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_2.fq.gz
+Approx 45% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_2.fq.gz
+Approx 50% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_2.fq.gz
+Approx 55% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_2.fq.gz
+Approx 60% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_2.fq.gz
+Approx 65% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_2.fq.gz
+Approx 70% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_2.fq.gz
+Approx 75% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_2.fq.gz
+Approx 80% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_2.fq.gz
+Approx 85% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_2.fq.gz
+Approx 90% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_2.fq.gz
+Approx 95% complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_2.fq.gz
+Analysis complete for AWPH13_827_USPD16088123-N712-K2663_HMNYJCCXY_L1_2.fq.gz
+
+===========================================================================
+Job Finished
+
+Name                : ph_fastqc
+User                : eoziolor
+Partition           : med
+Nodes               : c11-96
+Cores               : 3
+State               : COMPLETED
+Submit              : 2018-09-20T15:30:26
+Start               : 2018-09-20T16:16:53
+End                 : 2018-09-20T16:35:52
+Reserved walltime   : 01:30:00
+Used walltime       : 00:18:59
+Used CPU time       : 00:02:58
+% User (Computation): 96.68%
+% System (I/O)      :  3.32%
+Mem reserved        : 8000M/node
+Max Mem used        : 301.57M (c11-96)
+Max Disk Write      : 2.62M (c11-96)
+Max Disk Read       : 1.21G (c11-96)
