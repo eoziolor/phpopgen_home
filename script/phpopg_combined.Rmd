@@ -486,8 +486,8 @@ my_list=/home/eoziolor/phpopg/data/list/bam_list.txt
 $my_bam merge -list $my_list -out $my_merge
 ```
 
-# Depth of coverage per base
-
+# Removing overrepresented regions
+## Per bgase depth determination
 ```{bash}
 #!/bin/bash -l
 
@@ -512,3 +512,56 @@ samtools depth \
 -d 10000 \
 -f $my_list | gzip > $my_out
 ```
+
+## Random 10Mb depth
+```{bash}
+#!/bin/bash -l
+
+#SBATCH -J rand10Mb
+#SBATCH -e rand10Mb-%j.o
+#SBATCH -o rand10Mb-%j.o
+#SBATCH -N 1
+#SBATCH -n 8
+#SBATCH -t 03-00:00
+#SBATCH --mem=60000
+#SBATCH -p high
+
+module load bio3
+
+#files
+dir=/home/eoziolor/phpopg/data/depth
+
+zcat $dir/coverage_allbases.txt.gz | \
+sort -R | \
+head -n 10000000 | \
+gzip > $dir/cov_10Mbrand.txt.gz
+```
+
+## Plotting coverage distribution
+
+* Downloading file
+```{bash}
+scp -P 2022 farm:/home/eoziolor/phpopg/data/depth/cov_10Mbrand.txt.gz ~/phpopg/data/depth/
+```
+
+* Observing distribution
+```{r}
+cov<-read.table("~/phpopg/data/depth/cov_10Mbrand.txt.gz",header=F)
+names<-c("chrom","pos","cov")
+
+hist(cov$cov,breaks=1000)
+
+subw<-cov$cov<3000
+hist(cov[subw,"cov"],breaks=1000)
+
+summary(cov$cov)
+summary(cov[subw,"cov"])
+```
+
+# Creating a genome file
+```{bash}
+awk -v OFS='\t' {'print $1,$2'} phgenome_masked.fasta.fai > phgenome_masked.fasta.genome
+```
+
+
+
