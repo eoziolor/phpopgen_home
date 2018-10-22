@@ -547,15 +547,61 @@ scp -P 2022 farm:/home/eoziolor/phpopg/data/depth/cov_10Mbrand.txt.gz ~/phpopg/d
 * Observing distribution
 ```{r}
 cov<-read.table("~/phpopg/data/depth/cov_10Mbrand.txt.gz",header=F)
-names<-c("chrom","pos","cov")
+names(cov)<-c("chrom","pos","cov")
 
 hist(cov$cov,breaks=1000)
 
-subw<-cov$cov<3000
+subw<-cov$cov<8000
 hist(cov[subw,"cov"],breaks=1000)
 
 summary(cov$cov)
 summary(cov[subw,"cov"])
+```
+
+## Bimodal distribution of coverage
+* Why??
+
+```{r}
+cov<-read.table("~/phpopg/data/depth/cov_10Mbrand.txt.gz",header=F)
+names(cov)<-c("chrom","pos","cov")
+
+sub1<-cov[,"cov"]<1000 & cov[,"cov"]>20
+
+hist(cov[sub1,"cov"],breaks=1000)
+
+```
+
+## Removing short scaffolds from the coverage
+* fist I use grep to figure out what line I need to stop reading the coverage file at to exclude any small scaffolds - scaffold 6281 and on
+
+```{bash}
+zcat coverage_allbases.txt.gz | awk '{print $1}' | grep -n "scaffold6281" | head
+```
+
+* I then reformat my script to only read up to that line and randomize coverage up to that line
+
+```{bash}
+#!/bin/bash -l
+
+#SBATCH -J rand10Mb10k
+#SBATCH -e rand10Mb10k-%j.o
+#SBATCH -o rand10Mb10k-%j.o
+#SBATCH -N 1
+#SBATCH -n 8
+#SBATCH -t 03-00:00
+#SBATCH --mem=60000
+#SBATCH -p high
+
+module load bio3
+
+#files
+dir=/home/eoziolor/phpopg/data/depth
+
+zcat $dir/coverage_allbases.txt.gz | \
+head -n 529827386| \
+sort -R | \
+head -n 10000000 | \
+gzip > $dir/cov_10Mb10k.txt.gz
 ```
 
 # Creating a genome file

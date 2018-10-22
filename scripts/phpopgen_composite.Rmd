@@ -1,0 +1,13 @@
+---
+title: "phpopgen_composite"
+author: "Elias"
+date: "May 24, 2018"
+output: html_document
+---
+# Pacific herring population genomics
+
+## Downloading the data
+
+```{bash}
+wget -m ftp://P202SC18041735-01_20180516_5PIrrU:xfEab6@hwftp.novogene.com 
+```
