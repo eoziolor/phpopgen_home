@@ -604,6 +604,27 @@ head -n 10000000 | \
 gzip > $dir/cov_10Mb10k.txt.gz
 ```
 
+* Downloading document
+
+```{bash}
+scp -P 2022 farm:/home/eoziolor/phpopg/data/depth/cov_10Mb10k.txt.gz ~/phpopg/data/depth/
+```
+
+* Loading in high quality scaffold coverage
+
+```{r}
+cov<-read.table("~/phpopg/data/depth/cov_10Mb10k.txt.gz",header=F)
+names(cov)<-c("chrom","pos","cov")
+
+hist(cov$cov,breaks=1000)
+
+subw<-cov$cov<5000
+hist(cov[subw,"cov"],breaks=1000)
+
+summary(cov$cov)
+summary(cov[subw,"cov"])
+```
+
 ## Ommitting regions with high coverage
 
 * Creating a file without any bases represented >5000 times
@@ -631,6 +652,16 @@ zcat $my_cov | \
 awk '{OFS="\t"}{s=$2-1}{print $1,s,$2,$3}' | \
 awk '{OFS="\t"}{if($4>5000){print}}' | \
 bedtools merge -i - -d 10 -c 4 -o count > $my_out
+```
+
+## How much did we throw out?
+
+* Check how much of the genome you threw out
+
+```{r}
+hi<-read.table("~/phpopg/data/depth/hicov.bed",header=F)
+print("percent thrown out")
+(sum(hi[,4])/900000000)*100
 ```
 
 # Creating a genome file
