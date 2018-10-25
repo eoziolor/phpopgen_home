@@ -18,6 +18,50 @@ wget -r --user="P202SC18070493-01_20180918_KsobGd" --password="z9riCH" ftp://128
 scp -P 2022 -r farm:/home/eoziolor/phpopg/data/128.120.88.242/* /Volumes/seagate_backup/herring_raw/
 ```
 
+# Backing up on SPOT
+
+Login with
+```{bash}
+smbclient \\\\sequoia.lawr.ucdavis.edu\\groups -U ad3\\<kerberos user>
+### will be prompted for kerberos pass
+```
+
+Navigate to group folder, example:
+```{bash}
+cd whitehead/Group/Genome_seq/raw_sequence/C_pallasii/assembled/
+put phgenome_masked.fasta
+
+cd whitehead/Group/Genome_seq/raw_sequence/C_pallasii/raw_10x/
+mput PH*
+```
+
+* Because smbclient is an ftp type server, the mput command is a bit inflexible. I will create soft links to all popgen sequence files to be able to transfer them all at once
+
+```{bash}
+ssh farm
+cd phpopg/data/128.120.88.242/raw_data/*/
+mkdir links
+cd links
+
+for file in /home/eoziolor/phpopg/data/128.120.88.242/raw_data/AWPH*/
+do
+  ln -s $file/* .
+done
+```
+Use put or mput to place files in directory necessary
+
+Navigate to the folder from which you would like to transfer files. Log in to smbclient, find group folder and transfer. Example:
+```{bash}
+smbclient \\\\sequoia.lawr.ucdavis.edu\\groups -U ad3\\eoziolor
+
+cd whitehead/Group\Genome_seq\raw_sequence\C_pallasii\popgen_raw\
+
+#turn off verbosity of mput - otherwise it will ask you if you want to transfer every single sample
+prompt
+mput *
+
+```
+
 #FastQC on all samples
 
 ```{bash}
@@ -293,7 +337,7 @@ dos2unix zeros_samples.tsv
 #!/bin/bash -l
 
 #SBATCH -J combo_trimalign
-#SBATCH --array=1-10
+#SBATCH --array=1-1250
 #SBATCH -e combo_trimalign%A-%a.o
 #SBATCH -o combo_trimalign%A-%a.o
 #SBATCH -N 1
@@ -667,6 +711,63 @@ print("percent thrown out")
 # Creating a genome file
 ```{bash}
 awk -v OFS='\t' {'print $1,$2'} phgenome_masked.fasta.fai > phgenome_masked.fasta.genome
+```
+
+# Variant calling (Freebayes)
+
+* Separate into as many jobs as scaffolds
+
+```{bash}
+#!/bin/bash -l
+
+#SBATCH -J combo_trimalign
+#SBATCH --array=1-81457
+#SBATCH -e combo_trimalign%A-%a.o
+#SBATCH -o combo_trimalign%A-%a.o
+#SBATCH -N 1
+#SBATCH -n 8
+#SBATCH -t 01-00:00
+#SBATCH --mem=8000
+
+cd /home/eoziolor/phpopg/data/varcall/scaffold/
+
+
+#files
+genome=/home/eoziolor/phgenome/data/genome/phgenome_masked.fasta
+my_fai=/home/eoziolor/phgenome/data/genome/phgenome_masked.fasta.fai
+mergebam=/home/eoziolor/phpopg/data/align/all_merged.bam
+>>>>>> popsfile=/home/eoziolor/phpopg/data/list/populations.txt
+hicov=/home/eoziolor/phpopg/data/depth/hicov.bed
+reg_file=/home/eoziolor/phgenome/data/genome/phgenome_masked.fasta.genome
+
+#programs
+>>>>>>>my_freebayes=/home/oziolore/restoreFromData/program/freebayes/bin/freebayes
+my_samtools=/home/eoziolor/program/samtools-1.9/samtools
+my_bgz=/home/eoziolor/program/htslib/bgzip
+my_bedtools=/home/eoziolor/program/bedtools2/bin/bedtools
+
+#region to investigate
+
+crap=$(echo $SLURM_ARRAY_TASK_ID)
+scaf=$(sed "$crap q;d" $reg_file | cut -f1)
+end=$(sed "$crap q;d" $reg_file | cut -f2)
+region=$scaf:1-$end 
+
+#directories and files
+
+outdir=/home/oziolore/restoreFromData/fhet/data/varcall/scaffold/
+outfile=$scaf.vcf.bgz
+
+$my_samtools view -q 30 -f 2 -h -b  $mergebam $region | \
+$my_bedtools intersect -v -a stdin -b $hicov | \
+$my_freebayes $regions 36 -f $genome --populations $popsfile --stdin | \
+$my_bgz > $outdir/$outfile
+
+echo $outdir
+echo $region
+echo $outfile
+echo $crap
+
 ```
 
 
