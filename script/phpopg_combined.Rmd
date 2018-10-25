@@ -18,7 +18,7 @@ wget -r --user="P202SC18070493-01_20180918_KsobGd" --password="z9riCH" ftp://128
 scp -P 2022 -r farm:/home/eoziolor/phpopg/data/128.120.88.242/* /Volumes/seagate_backup/herring_raw/
 ```
 
-# Backing up on SPOT
+# Backing up on Sequoia
 
 Login with
 ```{bash}
@@ -59,7 +59,28 @@ cd whitehead/Group\Genome_seq\raw_sequence\C_pallasii\popgen_raw\
 #turn off verbosity of mput - otherwise it will ask you if you want to transfer every single sample
 prompt
 mput *
+```
 
+Doing this separately for AWPH04 because those were links to other data
+
+```{bash}
+cd /group/awhitehegrp/herring_pop/hwftp.novogene.com/C202SC18041736/raw_data/links
+
+for file in /group/awhitehegrp/herring_pop/hwftp.novogene.com/C202SC18041736/raw_data/AWPH*/
+do
+  ln -s $file/* .
+done
+```
+
+Navigate to the folder from which you would like to transfer files. Log in to smbclient, find group folder and transfer. Example:
+```{bash}
+smbclient \\\\sequoia.lawr.ucdavis.edu\\groups -U ad3\\eoziolor
+
+cd whitehead/Group\Genome_seq\raw_sequence\C_pallasii\popgen_raw\
+
+#turn off verbosity of mput - otherwise it will ask you if you want to transfer every single sample
+prompt
+mput *
 ```
 
 #FastQC on all samples
@@ -715,6 +736,33 @@ awk -v OFS='\t' {'print $1,$2'} phgenome_masked.fasta.fai > phgenome_masked.fast
 
 # Variant calling (Freebayes)
 
+* Install freebayes
+
+```{bash}
+cd /programs/
+git clone --recursive git://github.com/ekg/freebayes.git
+make
+```
+
+* index bam file
+```{bash}
+#!/bin/bash -l
+
+#SBATCH -J bam_index
+#SBATCH -e bam_index-%j.o
+#SBATCH -o bam_index%j.o
+#SBATCH -N 1
+#SBATCH -n 16
+#SBATCH -t 01-00:00
+#SBATCH --mem=60000
+#SBATCH -p high
+
+my_stools=/home/eoziolor/program/samtools-1.9/samtools 
+my_bam=/home/eoziolor/phpopg/data/align/allmerge.bam
+
+$my_stools -@16 index $my_bam
+```
+
 * Separate into as many jobs as scaffolds
 
 ```{bash}
@@ -735,13 +783,13 @@ cd /home/eoziolor/phpopg/data/varcall/scaffold/
 #files
 genome=/home/eoziolor/phgenome/data/genome/phgenome_masked.fasta
 my_fai=/home/eoziolor/phgenome/data/genome/phgenome_masked.fasta.fai
-mergebam=/home/eoziolor/phpopg/data/align/all_merged.bam
->>>>>> popsfile=/home/eoziolor/phpopg/data/list/populations.txt
+mergebam=/home/eoziolor/phpopg/data/align/allmerge.bam
+popsfile=/home/eoziolor/phpopg/data/list/zeros_samples.tsv
 hicov=/home/eoziolor/phpopg/data/depth/hicov.bed
 reg_file=/home/eoziolor/phgenome/data/genome/phgenome_masked.fasta.genome
 
 #programs
->>>>>>>my_freebayes=/home/oziolore/restoreFromData/program/freebayes/bin/freebayes
+my_freebayes=/home/eoziolor/program/freebayes/bin/freebayes
 my_samtools=/home/eoziolor/program/samtools-1.9/samtools
 my_bgz=/home/eoziolor/program/htslib/bgzip
 my_bedtools=/home/eoziolor/program/bedtools2/bin/bedtools
@@ -760,7 +808,7 @@ outfile=$scaf.vcf.bgz
 
 $my_samtools view -q 30 -f 2 -h -b  $mergebam $region | \
 $my_bedtools intersect -v -a stdin -b $hicov | \
-$my_freebayes $regions 36 -f $genome --populations $popsfile --stdin | \
+$my_freebayes -f $genome --populations $popsfile --stdin | \
 $my_bgz > $outdir/$outfile
 
 echo $outdir
