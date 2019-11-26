@@ -429,31 +429,6 @@ $my_sam sort -T $my_out/$outroot > $my_out/$outroot
     * I am missing folders 097 and 199, but the script still produces files with alignments in them because it draws from folders 1097 and 1199. I will delete these alignments.
     * For the future I have made sure that this does not happen by padding down the names of the alignment files with the correct amount of 0s (ex. 0097, 0199)
 
-## Alignment statistics
-
-```{bash}
-#!/bin/bash -l
-
-#SBATCH -J flagstat
-#SBATCH -e flagstat-%j.o
-#SBATCH -o flagstat-%j.o
-#SBATCH -N 1
-#SBATCH -n 16
-#SBATCH -t 01-00:00
-#SBATCH --mem=60000
-#SBATCH -p high
-
-#files
-my_dir=/home/eoziolor/phpopg/data/align
-my_sam=/home/eoziolor/program/samtools-1.9/bin/samtools
-my_out=/home/eoziolor/phpopg/data/align/stats.txt
-
-#code
-for file in $my_dir/*.bam; do
-	$my_sam flagstat $file >> $my_out
-done
-```
-
 ## File names and locations of all bams
 
 ```{bash}
@@ -504,13 +479,17 @@ ggplot(mapped,
        aes(x=pop,y=cov,color=pop))+
   geom_violin(color="black")+
   geom_jitter()+
-  theme_classic()
+  theme_classic()+
+  theme(axis.text.x=element_text(face="bold", color="black", size=10, angle=90),
+        axis.text.y=element_text(face="bold", color="black", size=10))
 
 ggplot(mapped,
        aes(x=as.factor(plate),y=cov,color=plate))+
   geom_violin(color="black")+
   geom_jitter()+
-  theme_classic()
+  theme_classic()+
+  theme(axis.text.x=element_text(face="bold", color="black", size=10),
+        axis.text.y=element_text(face="bold", color="black", size=10))
 
 ```
 
@@ -538,7 +517,7 @@ make DESTDIR=/home/eoziolor/program/bamtools install
 #SBATCH -o mergebam-%j.o
 #SBATCH -N 1
 #SBATCH -n 16
-#SBATCH -t 02-00:00
+#SBATCH -t 06-00:00
 #SBATCH --mem=60000
 #SBATCH -p high
 
@@ -775,7 +754,7 @@ $my_stools -@16 index $my_bam
 #SBATCH -N 1
 #SBATCH -n 8
 #SBATCH -t 01-00:00
-#SBATCH --mem=8000
+#SBATCH --mem=60000
 
 cd /home/eoziolor/phpopg/data/varcall/scaffold/
 
@@ -818,5 +797,504 @@ echo $crap
 
 ```
 
+# Exploring mapping to Atlantic herring
 
+## Downloading atlantic herring genome from EBI
+
+```{bash}
+wget ftp://ftp.ebi.ac.uk/pub/databases/ena/wgs/public/ca/CAADHV01.fasta.gz
+gunzip CAADHV01.fasta.gz 
+
+## Indexing genome
+/home/eoziolor/program/samtools-1.9/bin/samtools faidx CAADHV01.fasta
+/home/eoziolor/program/bwa-0.7.17/bwa index CAADHV01.fasta
+```
+
+## Aligning to AH
+```{bash}
+#!/bin/bash -l
+
+#SBATCH -J combo_trimalign
+#SBATCH --array=1-1250
+#SBATCH -e combo_trimalign%A-%a.o
+#SBATCH -o combo_trimalign%A-%a.o
+#SBATCH -N 1
+#SBATCH -n 8
+#SBATCH -t 01-00:00
+#SBATCH --mem=8000
+
+module load bio3
+
+#Assigning number to be able to get into each folder separately
+
+if (($SLURM_ARRAY_TASK_ID < 10))
+then
+	num=00$(echo $SLURM_ARRAY_TASK_ID)
+elif (($SLURM_ARRAY_TASK_ID < 100))
+then
+	num=0$(echo $SLURM_ARRAY_TASK_ID)
+else
+	num=$(echo $SLURM_ARRAY_TASK_ID)
+fi
+
+echo $num
+
+#Assigning new sample numbers with same amount of digits
+if (($SLURM_ARRAY_TASK_ID < 10))
+then
+        sample=000$(echo $SLURM_ARRAY_TASK_ID)
+elif (($SLURM_ARRAY_TASK_ID < 100))
+then
+        sample=00$(echo $SLURM_ARRAY_TASK_ID)
+elif (($SLURM_ARRAY_TASK_ID <1000))
+then
+	sample=0$(echo $SLURM_ARRAY_TASK_ID)
+else
+        sample=$(echo $SLURM_ARRAY_TASK_ID)
+fi
+
+
+#Directory and file assignment for each file and program
+my_dir=/home/eoziolor/phpopg/data/128.120.88.242/raw_data
+fq1=$my_dir/AWPH*$num/*1.fq.gz
+fq2=$my_dir/AWPH*$num/*2.fq.gz
+my_bwa=/home/eoziolor/program/bwa-0.7.17/bwa
+my_sbl=/home/eoziolor/program/samblaster/samblaster
+my_sam=/home/eoziolor/program/samtools-1.9/samtools
+my_out=/home/eoziolor/phpopg/data/align/
+my_gen=/home/eoziolor/phpopg/data/genome/CAADHV01.fasta
+my_list=/home/eoziolor/phpopg/data/list/zeros_samples.tsv
+
+#others
+pop=$(cat $my_list | grep $sample | cut -f 2)
+rg=$(echo \@RG\\tID:$sample\\tPL:Illumina\\tPU:x\\tLB:combined\\tSM:$sample.$pop)
+outroot=$sample\_$pop
+
+#Code
+paste <(zcat $fq1 | paste - - - -) \
+      <(zcat $fq2 | paste - - - -) |\
+tr '\t' '\n' |\
+cutadapt -j 8 --interleaved -a CTGTCTCTTATA -A CTGTCTCTTATA -u 10 -U 10 -q 30 --trim-n --minimum-length 36 - |\
+$my_bwa mem $my_gen -p -R $rg -t 2 - |\
+$my_sam view -S -h -u - | \
+$my_sam sort -T $my_out/$outroot > $my_out/${outroot}.bam
+```
+
+## Rename: ran above script without
+```{bash}
+my_dir=/home/eoziolor/phpopg/data/align
+cd $my_dir
+
+for i in $(ls); do
+  mv ${i} ${i}.bam
+done
+```
+
+## Alignment statistics
+
+```{bash}
+#!/bin/bash -l
+
+#SBATCH -J bam_stats
+#SBATCH --array=1-1250
+#SBATCH -e bam_stats%A-%a.o
+#SBATCH -o bam_stats%A-%a.o
+#SBATCH -N 1
+#SBATCH -n 4
+#SBATCH -t 01-00:00
+#SBATCH --mem=8000
+#SBATCH -p high
+
+#Assigning number to be able to get into each folder separately
+
+if (($SLURM_ARRAY_TASK_ID < 10))
+then
+        sample=000$(echo $SLURM_ARRAY_TASK_ID)
+elif (($SLURM_ARRAY_TASK_ID < 100))
+then
+        sample=00$(echo $SLURM_ARRAY_TASK_ID)
+elif (($SLURM_ARRAY_TASK_ID <1000))
+then
+	sample=0$(echo $SLURM_ARRAY_TASK_ID)
+else
+        sample=$(echo $SLURM_ARRAY_TASK_ID)
+fi
+
+echo $sample
+
+#files
+my_dir=/home/eoziolor/phpopg/data/align
+my_sam=/home/eoziolor/program/samtools-1.9/bin/samtools
+my_out=/home/eoziolor/phpopg/data/stats/stats_${sample}.txt
+
+#code
+for file in $my_dir/${sample}*.bam; do
+	$my_sam flagstat $file >> $my_out
+done
+```
+
+## Looking at mapping success rate and coverage
+
+### Removing emtpy files
+```{bash}
+find /home/eoziolor/phpopg/data/stats -size  0 -print0 | xargs -0 rm --
+```
+
+* Using samtools flagstat then grabbing mapped reads line
+
+```{bash}
+parent=/home/eoziolor/phpopg/data/stats
+list=/home/eoziolor/phpopg/data/list/zeros_samples.tsv
+cd $parent
+
+for i in $(ls); do
+  reads=$(cat ${i} | grep "properly paired (" | awk '{OFS=" "}{print $1}')
+  sample=$(echo ${i} | sed 's/stats\_//g' | sed "s/\.txt//g")
+  name=$(cat $list | grep ${sample})
+  printf "${name}\t${reads}\n" >> mapping_rates.txt
+done
+
+```
+
+## Loading in read coverage
+```{r}
+library(magrittr)
+library(tidyr)
+library(ggplot2)
+library(dplyr)
+mapped<-read.csv("~/phpopg/data/mapping_rates.txt",header=F,sep='\t')
+
+#calculating coverage
+mapped[,4]<-mapped[,3]*140/720000000
+colnames(mapped)<-c("sample","pop","paired_reads", "cov")
+
+#histogram for overall coverage
+hist(mapped[,4],breaks=1000)
+
+#converting ind to numeric
+mapped[,1]<-as.numeric(mapped[,1])
+
+#creating a vector of plate #
+for(i in 1:20){
+  for(j in 1:(dim(mapped)[1])){
+    if(mapped[j,1]<=i*64&&mapped[j,1]>(i-1)*64){
+    mapped[j,5]<-i
+  }
+  }
+}
+
+#naming columns
+colnames(mapped)<-c("ind","pop","reads","cov","plate")
+
+ggplot(mapped,
+       aes(x=pop,y=cov,color=pop))+
+  geom_violin(color="black")+
+  geom_jitter()+
+  theme_classic()+
+  theme(axis.text.x=element_text(face="bold", color="black", size=10, angle=90),
+        axis.text.y=element_text(face="bold", color="black", size=10))
+
+ggplot(mapped,
+       aes(x=as.factor(plate),y=cov,color=plate))+
+  geom_violin(color="black")+
+  geom_jitter()+
+  theme_classic()+
+  theme(axis.text.x=element_text(face="bold", color="black", size=10),
+        axis.text.y=element_text(face="bold", color="black", size=10))
+
+```
+
+## Creating a list of bams
+```{bash}
+parent=/home/eoziolor/phpopg/data/align
+cd $parent
+
+ls -1d $PWD/* > ../list/bam_list.txt
+
+```
+
+## Merging with bamtools
+
+```{bash}
+#!/bin/bash -l
+
+#SBATCH -J mergebam
+#SBATCH -e mergebam-%j.o
+#SBATCH -o mergebam-%j.o
+#SBATCH -N 1
+#SBATCH -n 16
+#SBATCH -t 06-00:00
+#SBATCH --mem=60000
+#SBATCH -p high
+
+#files
+my_bam=/home/eoziolor/program/bamtools/build/src/toolkit/bamtools
+my_merge=/home/eoziolor/phpopg/data/align/allmerge.bam
+my_list=/home/eoziolor/phpopg/data/list/bam_list.txt
+
+#code
+$my_bam merge -list $my_list -out $my_merge
+```
+
+# Variant calling (new genome)
+
+```{bash}
+#!/bin/bash -l
+
+#SBATCH -J freebayes
+#SBATCH --array=1-3868
+#SBATCH -e freebayes%A-%a.o
+#SBATCH -o freebayes%A-%a.o
+#SBATCH -t 06-00:00
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=8G
+#SBATCH -p med
+#SBATCH --no-requeue
+
+cd /home/eoziolor/phpopg/data/varcall/scaffold/
+
+#files
+genome=/home/eoziolor/phpopg/data/genome/CAADHV01.fasta
+my_fai=/home/eoziolor/phpopg/data/genome/CAADHV01.fasta.fai
+mergebam=/home/eoziolor/phpopg/data/align/allmerge.bam
+popsfile=/home/eoziolor/phpopg/data/list/zeros_samples.tsv
+hicov=/home/eoziolor/phpopg/data/depth/hicov.bed
+reg_file=/home/eoziolor/phpopg/data/genome/CAADHV01.fasta.genome
+
+#programs
+my_freebayes=/home/eoziolor/program/freebayes/bin/freebayes
+my_samtools=/home/eoziolor/program/samtools-1.9/samtools
+my_bgz=/home/eoziolor/program/htslib/bgzip
+my_bedtools=/home/eoziolor/program/bedtools2/bin/bedtools
+
+#region to investigate
+
+crap=$(echo $SLURM_ARRAY_TASK_ID)
+scaf=$(sed "$crap q;d" $reg_file | cut -f1)
+end=$(sed "$crap q;d" $reg_file | cut -f2)
+region=$scaf:1-$end 
+
+#directories and files
+
+outdir=/home/eoziolor/phpopg/data/varcall/scaffold
+outfile=$scaf.vcf.bgz
+
+$my_samtools view -q 30 -f 2 -h -b  $mergebam $region | \
+$my_bedtools intersect -v -a stdin -b $hicov | \
+$my_freebayes -f $genome --populations $popsfile --use-best-n-alleles 4 --stdin | \
+$my_bgz > $outdir/$outfile
+
+echo $outdir
+echo $region
+echo $outfile
+echo $crap
+echo $end
+```
+
+## Fail on time limit
+
+* 220 scaffolds failed due to time limit. I will re-run them with higher requested ram and cpus
+
+```{bash}
+cd ~/phpopg/scripts/varcall/
+grep -rl "CANCELLED" . | sed 's/.*-//g' | sed 's/\.o//g' | sort -n -s | tr '\n' ','
+
+# List of failed scaffolds
+7,13,26,34,52,64,163,186,188,191,199,201,206,207,208,210,213,218,221,222,228,230,232,250,256,258,260,262,284,300,305,306,312,343,346,356,363,364,366,367,372,379,381,384,391,397,399,427,429,432,434,439,453,460,466,468,472,474,487,488,494,496,502,508,512,516,592,594,606,608,614,626,627,646,648,653,662,664,672,673,674,675,682,687,688,692,742,746,747,749,753,754,755,762,768,772,778,811,816,823,825,828,833,835,839,844,849,855,856,860,865,872,874,876,879,912,918,922,924,931,935,943,944,952,958,959,1026,1029,1031,1033,1034,1036,1040,1041,1045,1063,1064,1065,1071,1072,1073,1084,1125,1143,1152,1165,1172,1176,1182,1184,1185,1189,1223,1234,1236,1243,1259,1261,1263,1268,1269,1275,1277,1292,1297,1304,1316,1323,1327,1333,1417,1420,1422,1425,1427,1431,1437,1456,1468,1470,1471,1473,1507,1510,1523,1526,1531,1534,1536,1539,1543,1598,1602,1607,1613,1618,1624,1630,1632,1655,1664,1670,1672,1674,1679,1793,1815,1834,1868,1882,1906,1917,1925,1930,1959,1969,1976,1979,1981,1985
+```
+
+```{bash}
+#!/bin/bash -l
+
+#SBATCH -J freebayes
+#SBATCH --array=7,13,26,34,52,64,163,186,188,191,199,201,206,207,208,210,213,218,221,222,228,230,232,250,256,258,260,262,284,300,305,306,312,343,346,356,363,364,366,367,372,379,381,384,391,397,399,427,429,432,434,439,453,460,466,468,472,474,487,488,494,496,502,508,512,516,592,594,606,608,614,626,627,646,648,653,662,664,672,673,674,675,682,687,688,692,742,746,747,749,753,754,755,762,768,772,778,811,816,823,825,828,833,835,839,844,849,855,856,860,865,872,874,876,879,912,918,922,924,931,935,943,944,952,958,959,1026,1029,1031,1033,1034,1036,1040,1041,1045,1063,1064,1065,1071,1072,1073,1084,1125,1143,1152,1165,1172,1176,1182,1184,1185,1189,1223,1234,1236,1243,1259,1261,1263,1268,1269,1275,1277,1292,1297,1304,1316,1323,1327,1333,1417,1420,1422,1425,1427,1431,1437,1456,1468,1470,1471,1473,1507,1510,1523,1526,1531,1534,1536,1539,1543,1598,1602,1607,1613,1618,1624,1630,1632,1655,1664,1670,1672,1674,1679,1793,1815,1834,1868,1882,1906,1917,1925,1930,1959,1969,1976,1979,1981,1985
+#SBATCH -e freebayes%A-%a.o
+#SBATCH -o freebayes%A-%a.o
+#SBATCH -t 06-00:00
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=60G
+#SBATCH -p med
+#SBATCH --no-requeue
+
+cd /home/eoziolor/phpopg/data/varcall/scaffold/
+
+#files
+genome=/home/eoziolor/phpopg/data/genome/CAADHV01.fasta
+my_fai=/home/eoziolor/phpopg/data/genome/CAADHV01.fasta.fai
+mergebam=/home/eoziolor/phpopg/data/align/allmerge.bam
+popsfile=/home/eoziolor/phpopg/data/list/zeros_samples.tsv
+hicov=/home/eoziolor/phpopg/data/depth/hicov.bed
+reg_file=/home/eoziolor/phpopg/data/genome/CAADHV01.fasta.genome
+
+#programs
+my_freebayes=/home/eoziolor/program/freebayes/bin/freebayes
+my_samtools=/home/eoziolor/program/samtools-1.9/samtools
+my_bgz=/home/eoziolor/program/htslib/bgzip
+my_bedtools=/home/eoziolor/program/bedtools2/bin/bedtools
+
+#region to investigate
+
+crap=$(echo $SLURM_ARRAY_TASK_ID)
+scaf=$(sed "$crap q;d" $reg_file | cut -f1)
+end=$(sed "$crap q;d" $reg_file | cut -f2)
+region=$scaf:1-$end 
+
+#directories and files
+
+outdir=/home/eoziolor/phpopg/data/varcall/scaffold
+outfile=$scaf.vcf.bgz
+
+$my_samtools view -q 30 -f 2 -h -b  $mergebam $region | \
+$my_bedtools intersect -v -a stdin -b $hicov | \
+$my_freebayes -f $genome --populations $popsfile --use-best-n-alleles 4 --stdin | \
+$my_bgz > $outdir/$outfile
+
+echo $outdir
+echo $region
+echo $outfile
+echo $crap
+echo $end
+```
+
+## Another set of failed jobs
+
+```{bash}
+cd /home/eoziolor/phpopg/scripts/varcall/redo_cancelled
+grep -Erl "CANCELLED|FAIL" . | sed 's/.*-//g' | sed 's/\.o//g' | sort -n -s | tr '\n' ','
+
+# List of cancelled scaffolds
+52,64,163,186,191,199,210,213,218,228,230,232,250,260,262,300,305,306,312,343,346,356,363,364,366,384,391,397,427,429,432,453,466,468,472,474,487,494,496,502,508,512,516,592,594,606,608,614,626,646,648,653,662,664,672,673,674,675,682,687,688,692,742,746,747,749,753,754,755,762,768,772,778,816,823,825,828,833,835,839,844,849,855,872,874,1063,1182,1316,1420,1456,1670,1793,1906,1979,1981
+```
+
+# Nov 25, 2019
+# Scrapping that genome
+# Starting with whole genome atlantic herring
+
+## Downloading full chr AH
+```{bash}
+cd /phpopg/data/genome_chr/
+gunzip clupea_harengus.fa.gz
+
+# Cleaning up info lines
+cat clupea_harengus.fa | sed 's/ENA.*chromosome\:\ /chr/g' > c.harengus.fa
+
+## Indexing genome
+/home/eoziolor/program/samtools-1.9/bin/samtools faidx c.harengus.fa
+/home/eoziolor/program/bwa-0.7.17/bwa index c.harengus.fa
+
+```
+
+## Aligning to AH_chr + markdup
+```{bash}
+#!/bin/bash -l
+
+#SBATCH -J combo_trimalign
+#SBATCH --array=1-1250
+#SBATCH -e combo_trimalign%A-%a.o
+#SBATCH -o combo_trimalign%A-%a.o
+#SBATCH -N 1
+#SBATCH -n 8
+#SBATCH -t 01-00:00
+#SBATCH --mem=8000
+
+module load bio3
+
+#Assigning number to be able to get into each folder separately
+
+if (($SLURM_ARRAY_TASK_ID < 10))
+then
+	num=00$(echo $SLURM_ARRAY_TASK_ID)
+elif (($SLURM_ARRAY_TASK_ID < 100))
+then
+	num=0$(echo $SLURM_ARRAY_TASK_ID)
+else
+	num=$(echo $SLURM_ARRAY_TASK_ID)
+fi
+
+echo $num
+
+#Assigning new sample numbers with same amount of digits
+if (($SLURM_ARRAY_TASK_ID < 10))
+then
+        sample=000$(echo $SLURM_ARRAY_TASK_ID)
+elif (($SLURM_ARRAY_TASK_ID < 100))
+then
+        sample=00$(echo $SLURM_ARRAY_TASK_ID)
+elif (($SLURM_ARRAY_TASK_ID <1000))
+then
+	sample=0$(echo $SLURM_ARRAY_TASK_ID)
+else
+        sample=$(echo $SLURM_ARRAY_TASK_ID)
+fi
+
+
+#Directory and file assignment for each file and program
+my_dir=/home/eoziolor/phpopg/data/128.120.88.242/raw_data
+fq1=$my_dir/AWPH*$num/*1.fq.gz
+fq2=$my_dir/AWPH*$num/*2.fq.gz
+my_bwa=/home/eoziolor/program/bwa-0.7.17/bwa
+my_sam=/home/eoziolor/program/samtools-1.9/samtools
+my_out=/home/eoziolor/phpopg/data/align/
+my_gen=/home/eoziolor/phpopg/data/genome_chr/c.harengus.fa
+my_list=/home/eoziolor/phpopg/data/list/zeros_samples.tsv
+
+#others
+pop=$(cat $my_list | grep $sample | cut -f 2)
+rg=$(echo \@RG\\tID:$sample\\tPL:Illumina\\tPU:x\\tLB:combined\\tSM:$sample.$pop)
+outroot=$sample\_$pop
+
+#Code
+paste <(zcat $fq1 | paste - - - -) \
+      <(zcat $fq2 | paste - - - -) |\
+tr '\t' '\n' |\
+cutadapt -j 8 --interleaved -a CTGTCTCTTATA -A CTGTCTCTTATA -u 10 -U 10 -q 30 --trim-n --minimum-length 36 - |\
+$my_bwa mem $my_gen -p -R $rg -t 2 - |\
+$my_sam view -Shu - | \
+$my_sam fixmate -m - - | \
+$my_sam sort -T $my_out/${outroot} - | \
+$my_sam markdup -l 150 -r -S - $my_out/${outroot}.bam
+```
+
+## Alignment statistics
+
+```{bash}
+#!/bin/bash -l
+
+#SBATCH -J bam_stats
+#SBATCH --array=1-1250
+#SBATCH -e bam_stats%A-%a.o
+#SBATCH -o bam_stats%A-%a.o
+#SBATCH -N 1
+#SBATCH -n 4
+#SBATCH -t 01-00:00
+#SBATCH --mem=8000
+#SBATCH -p high
+
+#Assigning number to be able to get into each folder separately
+
+if (($SLURM_ARRAY_TASK_ID < 10))
+then
+        sample=000$(echo $SLURM_ARRAY_TASK_ID)
+elif (($SLURM_ARRAY_TASK_ID < 100))
+then
+        sample=00$(echo $SLURM_ARRAY_TASK_ID)
+elif (($SLURM_ARRAY_TASK_ID <1000))
+then
+	sample=0$(echo $SLURM_ARRAY_TASK_ID)
+else
+        sample=$(echo $SLURM_ARRAY_TASK_ID)
+fi
+
+echo $sample
+
+#files
+my_dir=/home/eoziolor/phpopg/data/align
+my_sam=/home/eoziolor/program/samtools-1.9/bin/samtools
+my_out=/home/eoziolor/phpopg/data/stats/stats_${sample}.txt
+
+#code
+for file in $my_dir/${sample}*.bam; do
+	$my_sam flagstat $file >> $my_out
+done
+```
 
